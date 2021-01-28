@@ -1,0 +1,188 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "Azurite Service - Loki",
+        "cwd": "${workspaceFolder}",
+        "runtimeArgs": ["-r", "ts-node/register"],
+        "args": ["${workspaceFolder}/src/azurite.ts", "-d", "debug.log"],
+        "env": {
+          "AZURITE_ACCOUNTS": ""
+        },
+        "outputCapture": "std"
+      },
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "Azurite Service - Loki, Loose",
+        "cwd": "${workspaceFolder}",
+        "runtimeArgs": ["-r", "ts-node/register"],
+        "args": ["${workspaceFolder}/src/azurite.ts", "-d", "debug.log", "-L"],
+        "env": {
+          "AZURITE_ACCOUNTS": ""
+        },
+        "outputCapture": "std"
+      },
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "Azurite Service - Loki, Loose, HTTPS, OAuth",
+        "cwd": "${workspaceFolder}",
+        "runtimeArgs": ["-r", "ts-node/register"],
+        "args": [
+          "${workspaceFolder}/src/azurite.ts",
+          "-L",
+          "--cert",
+          "${workspaceFolder}/tests/server.cert",
+          "--key",
+          "${workspaceFolder}/tests/server.key",
+          "-d",
+          "debug.log",
+          "--oauth",
+          "basic"
+        ],
+        "env": {
+          "AZURITE_ACCOUNTS": ""
+        },
+        "outputCapture": "std"
+      },
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "Azurite Queue Service - Loki, HTTPS, OAuth",
+        "cwd": "${workspaceFolder}",
+        "runtimeArgs": ["-r", "ts-node/register"],
+        "args": [
+          "${workspaceFolder}/src/queue/main.ts",
+          "-d",
+          "debug.log",
+          "--cert",
+          "${workspaceFolder}/tests/server.cert",
+          "--key",
+          "${workspaceFolder}/tests/server.key",
+          "--oauth",
+          "basic"
+        ],
+        "env": {
+          "AZURITE_ACCOUNTS": ""
+        },
+        "outputCapture": "std"
+      },
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "Azurite Blob Service - Loki, HTTPS, OAuth",
+        "cwd": "${workspaceFolder}",
+        "runtimeArgs": ["-r", "ts-node/register"],
+        "args": [
+          "${workspaceFolder}/src/blob/main.ts",
+          "-d",
+          "debug.log",
+          "--cert",
+          "${workspaceFolder}/tests/server.cert",
+          "--key",
+          "${workspaceFolder}/tests/server.key",
+          "--oauth",
+          "basic"
+        ],
+        "env": {
+          "AZURITE_ACCOUNTS": ""
+        },
+        "outputCapture": "std"
+      },
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "Azurite Blob Service - SQL",
+        "cwd": "${workspaceFolder}",
+        "runtimeArgs": ["-r", "ts-node/register"],
+        "args": ["${workspaceFolder}/src/blob/main.ts", "-d", "debug.log"],
+        "env": {
+          "AZURITE_DB": "mysql://root:my-secret-pw@127.0.0.1:3306/azurite_blob",
+          "AZURITE_ACCOUNTS": ""
+        },
+        "outputCapture": "std"
+      },
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "Azurite Table Service - Loki",
+        "cwd": "${workspaceFolder}",
+        "runtimeArgs": ["-r", "ts-node/register"],
+        "args": ["${workspaceFolder}/src/table/main.ts", "-d", "debug.log"],
+        "env": {
+          "AZURITE_ACCOUNTS": ""
+        },
+        "outputCapture": "std"
+      },
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "Current TS File",
+        "cwd": "${workspaceFolder}",
+        "runtimeArgs": ["-r", "ts-node/register"],
+        "args": ["${workspaceFolder}/${relativeFile}"],
+        "outputCapture": "std"
+      },
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "Current Mocha TS File - Loki",
+        "cwd": "${workspaceFolder}",
+        "runtimeArgs": ["-r", "ts-node/register"],
+        "args": [
+          "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+          "-u",
+          "tdd",
+          "--timeout",
+          "999999",
+          "--colors",
+          "${workspaceFolder}/${relativeFile}"
+        ],
+        "env": {
+          "AZURITE_ACCOUNTS": "",
+          "NODE_TLS_REJECT_UNAUTHORIZED": "0"
+        },
+        "internalConsoleOptions": "openOnSessionStart",
+        "outputCapture": "std"
+      },
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "Current Mocha TS File - SQL",
+        "cwd": "${workspaceFolder}",
+        "runtimeArgs": ["-r", "ts-node/register"],
+        "args": [
+          "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+          "-u",
+          "tdd",
+          "--timeout",
+          "999999",
+          "--colors",
+          "${workspaceFolder}/${relativeFile}"
+        ],
+        "env": {
+          "AZURITE_ACCOUNTS": "",
+          "AZURITE_TEST_DB": "mysql://root:my-secret-pw@127.0.0.1:3306/azurite_blob_test",
+          "NODE_TLS_REJECT_UNAUTHORIZED": "0"
+        },
+        "internalConsoleOptions": "openOnSessionStart",
+        "outputCapture": "std"
+      },
+      {
+        "name": "VSC Extension",
+        "type": "extensionHost",
+        "request": "launch",
+        "runtimeExecutable": "${execPath}",
+        "args": ["--extensionDevelopmentPath=${workspaceFolder}"],
+        "outFiles": ["${workspaceFolder}/dist/**/*.js"],
+        "preLaunchTask": "npm: watch"
+      }
+    ]
+  }
+  
