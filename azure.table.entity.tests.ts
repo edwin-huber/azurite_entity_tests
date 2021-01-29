@@ -19,10 +19,10 @@ function readConfig() {
   return JSON.parse(fs.readFileSync("local_settings.json", "utf8"));
 }
 
-class testEntity {
-  PartitionKey: Azure.TableUtilities.entityGenerator.EntityProperty<string>;
-  RowKey: Azure.TableUtilities.entityGenerator.EntityProperty<string>;
-  myValue: Azure.TableUtilities.entityGenerator.EntityProperty<string>;
+class TestEntity {
+  public PartitionKey: Azure.TableUtilities.entityGenerator.EntityProperty<string>;
+  public RowKey: Azure.TableUtilities.entityGenerator.EntityProperty<string>;
+  public myValue: Azure.TableUtilities.entityGenerator.EntityProperty<string>;
   constructor(part: string, row: string, value: string) {
     this.PartitionKey = eg.String(part);
     this.RowKey = eg.String(row);
@@ -31,8 +31,8 @@ class testEntity {
 }
 
 // Create Entity for tests
-function createBasicEntityForTest(): testEntity {
-  return new testEntity("part1", getUniqueName("row"), "value1");
+function createBasicEntityForTest(): TestEntity {
+  return new TestEntity("part1", getUniqueName("row"), "value1");
 }
 
 // const wildCardEtag = {
@@ -97,12 +97,12 @@ describe("table Entity APIs test", () => {
         } else {
           assert.equal(updateResponse.statusCode, 202); // No content
           // TODO When QueryEntity is done - validate Entity Properties
-          tableService.retrieveEntity<testEntity>(
+          tableService.retrieveEntity<TestEntity>(
             tableName,
             batchEntity1.PartitionKey._,
             batchEntity1.RowKey._,
             (error, result) => {
-              const entity: testEntity = result;
+              const entity: TestEntity = result;
               assert.equal(entity.myValue._, batchEntity1.myValue._);
               done();
             }
