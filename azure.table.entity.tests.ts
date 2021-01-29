@@ -19,13 +19,20 @@ function readConfig() {
   return JSON.parse(fs.readFileSync("local_settings.json", "utf8"));
 }
 
+class testEntity {
+  PartitionKey: Azure.TableUtilities.entityGenerator.EntityProperty<string>;
+  RowKey: Azure.TableUtilities.entityGenerator.EntityProperty<string>;
+  myValue: Azure.TableUtilities.entityGenerator.EntityProperty<string>;
+  constructor(part: string, row: string, value: string) {
+    this.PartitionKey = eg.String(part);
+    this.RowKey = eg.String(row);
+    this.myValue = eg.String(value);
+  }
+}
+
 // Create Entity for tests
-function createBasicEntityForTest() {
-  return {
-    PartitionKey: eg.String("part1"),
-    RowKey: eg.String(getUniqueName("row")),
-    myValue: eg.String("value1"),
-  };
+function createBasicEntityForTest(): testEntity {
+  return new testEntity("part1", getUniqueName("row"), "value1");
 }
 
 // const wildCardEtag = {
@@ -90,7 +97,16 @@ describe("table Entity APIs test", () => {
         } else {
           assert.equal(updateResponse.statusCode, 202); // No content
           // TODO When QueryEntity is done - validate Entity Properties
-          done();
+          tableService.retrieveEntity<testEntity>(
+            tableName,
+            batchEntity1.PartitionKey._,
+            batchEntity1.RowKey._,
+            (error, result) => {
+              const entity: testEntity = result;
+              assert.equal(entity.myValue._, batchEntity1.myValue._);
+              done();
+            }
+          );
         }
       }
     );
